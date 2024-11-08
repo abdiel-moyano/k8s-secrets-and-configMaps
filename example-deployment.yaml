@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: example-app
+  template:
+    metadata:
+      labels:
+        app: example-app
+    spec:
+      containers:
+        - name: example-container
+          image: nginx
+          env:
+            - name: APP_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: example-configmap
+                  key: APP_NAME
+            - name: APP_ENV
+              valueFrom:
+                configMapKeyRef:
+                  name: example-configmap
+                  key: APP_ENV
+            - name: USER_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: example-secret
+                  key: USER_NAME
+            - name: PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: example-secret
+                  key: PASSWORD
